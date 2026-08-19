@@ -1,10 +1,11 @@
 const PRODUCTION_API_URL =
   "https://bookmanagementapi-production-7272.up.railway.app/api";
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim();
 const API_BASE_URL = (
-  import.meta.env.DEV
+  import.meta.env.DEV && !configuredApiUrl
     ? "/api"
-    : import.meta.env.VITE_API_URL || PRODUCTION_API_URL
-).replace(/\/$/, "");
+    : configuredApiUrl || PRODUCTION_API_URL
+).replace(/\/+$/, "");
 
 async function request(path, options = {}) {
   const response = await fetch(`${API_BASE_URL}${path}`, {

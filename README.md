@@ -1,5 +1,22 @@
 # React + Vite
 
+## API configuration
+
+The frontend uses the Vite `/api` proxy during local development. Production
+builds call the Railway API directly. To use another API server, create a
+`.env.local` file from `.env.example` and set `VITE_API_URL` to the API base
+URL, including `/api`.
+
+For GitHub Pages, set `VITE_API_URL` in the GitHub Actions build environment:
+
+```yaml
+env:
+	VITE_API_URL: https://bookmanagementapi-production-7272.up.railway.app/api
+```
+
+The API server must allow requests from the deployed GitHub Pages origin via
+CORS.
+
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 
 Currently, two official plugins are available:
