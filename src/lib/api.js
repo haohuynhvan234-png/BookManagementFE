@@ -8,12 +8,19 @@ const API_BASE_URL = (
 ).replace(/\/+$/, "");
 
 async function request(path, options = {}) {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    headers: options.body
-      ? { "Content-Type": "application/json", ...options.headers }
-      : options.headers,
-    ...options,
-  });
+  let response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      headers: options.body
+        ? { "Content-Type": "application/json", ...options.headers }
+        : options.headers,
+      ...options,
+    });
+  } catch {
+    throw new Error(
+      "Cannot connect to the API. Check the API server and its CORS settings.",
+    );
+  }
   const data = await response.json().catch(() => null);
   if (!response.ok)
     throw new Error(data?.message || `Request failed (${response.status})`);
